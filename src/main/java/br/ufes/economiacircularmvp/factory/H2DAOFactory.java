@@ -13,7 +13,7 @@ import br.ufes.economiacircularmvp.dao.h2.UsuarioDAOH2;
 public class H2DAOFactory implements IDAOFactory{
     private static IGerenciarConexaoStrategy gerenciarConexao;
     private static String H2_DB_URL = "jdbc:h2:file:~/h2EconomiaCircularMVP.db";
-    private static String H2_DB_PATH = "~/h2EconomiaCircularMVPb";
+    private static String H2_DB_PATH = "./h2EconomiaCircularMVPb";
 
     // Inicializa o gerenciador de conexões com base na configuração da aplicação
     static { 

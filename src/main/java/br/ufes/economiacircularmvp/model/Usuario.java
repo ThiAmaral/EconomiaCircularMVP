@@ -11,6 +11,7 @@ public class Usuario {
     private PerfilVendedor perfilVendedor;
     private PerfilComprador perfilComprador;
     private boolean isAdmin;
+    private boolean autenticado;
     
     public Usuario(String nome, String usuario, String senha, String contato){
         this.nome = nome;
@@ -48,6 +49,10 @@ public class Usuario {
     public boolean isIsAdmin() {
         return isAdmin;
     }
+
+    public boolean isAutenticado() {
+        return autenticado;
+    }
     
     public void setNome(String nome) {
         this.nome = nome;
@@ -72,5 +77,8 @@ public class Usuario {
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
-    
+
+    public void setAutenticado(boolean autententicado) {
+        this.autenticado = autententicado;
+    }
 }
