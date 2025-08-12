@@ -13,11 +13,11 @@ import br.ufes.economiacircularmvp.dao.sqlite.UsuarioDAOSQLite;
 public class SQLiteDAOFactory implements IDAOFactory{
     private static IGerenciarConexaoStrategy gerenciarConexao;
     private static String SQLITE_DB_URL = "jdbc:sqlite:file:~/sqliteEconomiaCircularMVP";
-    private static String SQLITE_DB_PATH = "./sqliteEconomiaCircularMVPb";
+    private static String SQLITE_DB_PATH = "./sqliteEconomiaCircularMVP.db";
 
     // Inicializa o gerenciador de conexões com base na configuração da aplicação
     static {
-            gerenciarConexao = new SQLiteGerenciarConexaoStrategy(ConfiguracaoAdapter.getValor("SGBD"), SQLITE_DB_PATH);
+        gerenciarConexao = new SQLiteGerenciarConexaoStrategy(ConfiguracaoAdapter.getValor("SGBD"), SQLITE_DB_PATH);
     }
 
     @Override

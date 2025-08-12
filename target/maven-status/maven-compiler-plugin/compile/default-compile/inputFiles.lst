@@ -19,6 +19,8 @@ C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\mai
 C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\factory\SQLiteDAOFactory.java
 C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\main\EconomiaCircularMVP.java
 C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\model\Usuario.java
+C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\observer\usuario\IUsuarioObserver.java
+C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\observer\usuario\IUsuarioSubject.java
 C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\perfil\IPerfil.java
 C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\perfil\PerfilComprador.java
 C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\perfil\PerfilVendedor.java

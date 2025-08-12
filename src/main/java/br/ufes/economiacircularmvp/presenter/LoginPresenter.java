@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package br.ufes.economiacircularmvp.presenter;
 
 import br.ufes.economiacircularmvp.model.Usuario;
@@ -13,10 +9,6 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Thiago
- */
 public final class LoginPresenter {
     
     private LoginView view;
@@ -24,7 +16,7 @@ public final class LoginPresenter {
     private CadastroUsuarioPresenter cadastroUsuarioPresenter;
     private IUsuarioRepository repository;
     
-    public LoginPresenter(LoginView view, IUsuarioRepository repository){
+    public LoginPresenter(IUsuarioRepository repository){
         this.view = new LoginView();
         this.repository = repository;
         this.autenticacaoService = new AutenticacaoService(repository);
@@ -69,9 +61,14 @@ public final class LoginPresenter {
         view.setVisible(true);
     }
     
+    public void limparCampos() {
+        view.getUsuarioField().setText("");
+        view.getSenhaField().setText("");
+    }
+    
     private void autenticar() throws SQLException{
-        String nomeUsuario = view.getUsuario();
-        String senha = view.getSenha();
+        String nomeUsuario = view.getUsuarioField().toString();
+        String senha = view.getSenhaField().toString();
         Usuario usuario = new Usuario("",nomeUsuario, senha,"");
 
         autenticacaoService.autenticar(usuario);
@@ -92,12 +89,12 @@ public final class LoginPresenter {
     }
     
     private void cadastrar() throws SQLException{
-        view.fechar();
+        view.dispose();
         this.cadastroUsuarioPresenter = new CadastroUsuarioPresenter(this.repository);
         
     }
 
     private void cancelar() {
-        view.fechar();
+        view.dispose();
     }
 }

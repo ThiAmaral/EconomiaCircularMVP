@@ -1,6 +1,7 @@
 package br.ufes.economiacircularmvp.repository;
 
 import br.ufes.economiacircularmvp.dto.UsuarioDTO;
+import br.ufes.economiacircularmvp.observer.usuario.IUsuarioObserver;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -17,5 +18,8 @@ public interface IUsuarioRepository {
     public void atualizarUsuario(UsuarioDTO usuarioAntigo, UsuarioDTO usuarioNovo) throws SQLException;
     public void removerUsuario(UsuarioDTO usuario) throws SQLException;
     public void limparRepositorio() throws SQLException;
+    public void addObserver(IUsuarioObserver observer);
+    public void removeObserver(IUsuarioObserver observer);
+    
     
 }

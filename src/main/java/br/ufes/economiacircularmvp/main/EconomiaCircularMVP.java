@@ -30,7 +30,7 @@ public class EconomiaCircularMVP {
             LoginView loginView = new LoginView();
             
             // 5. Inicia o Presenter, que conecta a View com o Repositório e a torna visível
-            new LoginPresenter(loginView, usuarioRepository);
+            new LoginPresenter(usuarioRepository);
 
         } catch (RuntimeException | SQLException e) {
             // Exibe qualquer erro de inicialização para o usuário

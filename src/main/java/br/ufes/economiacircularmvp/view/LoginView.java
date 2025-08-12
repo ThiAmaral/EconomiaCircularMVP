@@ -64,55 +64,12 @@ public class LoginView extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.fill = GridBagConstraints.NONE;
         add(botoesPanel, gbc);
-
-        // Ação do botão de login executa o Command
-        loginButton.addActionListener((ActionEvent e) -> {
-            if (loginCommand != null) {
-                // Supondo que a interface de comando tenha o método "executar"
-                // loginCommand.executar();
-            }
-        });
     }
 
-    // --- MÉTODOS PÚBLICOS PARA O PRESENTER ---
-
-    public String getUsuario() {
-        return usuarioField.getText();
-    }
-
-    public String getSenha() {
-        return new String(senhaField.getPassword());
-    }
+    public JTextField getUsuarioField() { return usuarioField; }
+    public JPasswordField getSenhaField() { return senhaField; }
+    public JButton getLoginButton() { return loginButton; }
+    public JButton getCadastrarButton() { return cadastrarButton; }
+    public JButton getCancelarButton() { return cancelarButton; }
     
-    // Getter para o botão de Login
-    public JButton getLoginButton() {
-        return loginButton;
-    }
-
-    // Getter para o botão de Cadastro
-    public JButton getCadastrarButton() {
-        return cadastrarButton;
-    }
-
-    // Getter para o novo botão de Cancelar
-    public JButton getCancelarButton() {
-        return cancelarButton;
-    }
-
-    /**
-     * O Presenter injeta a ação de login (o comando) através deste método.
-     * @param command A ação a ser executada ao clicar no botão.
-     */
-    public void setLoginCommand(IProjetoCommand command) {
-        this.loginCommand = command;
-    }
-
-    public void exibirMensagem(String mensagem) {
-        JOptionPane.showMessageDialog(this, mensagem);
-    }
-    
-    // Método para fechar a janela, a ser chamado pelo Presenter
-    public void fechar() {
-        this.dispose();
-    }
 }

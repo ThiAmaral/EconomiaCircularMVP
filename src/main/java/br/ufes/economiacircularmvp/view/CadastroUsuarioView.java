@@ -15,6 +15,7 @@ public class CadastroUsuarioView extends JFrame {
     private JCheckBox perfilCompradorCheck;
     private JCheckBox isAdminCheck;
     private JButton salvarButton;
+    private JButton cancelarButton; // NOVO: Declaração do botão de cancelar
 
     private IProjetoCommand salvarCommand;
 
@@ -55,15 +56,23 @@ public class CadastroUsuarioView extends JFrame {
         gbc.gridx = 0; gbc.gridy = 5; add(new JLabel("Administrador:"), gbc);
         gbc.gridx = 1; isAdminCheck = new JCheckBox("É administrador do sistema"); add(isAdminCheck, gbc);
 
-        // --- Botão de Salvar ---
+        // --- Botões de Ação (Salvar e Cancelar) ---
+        // NOVO: Criando um painel para organizar os botões
+        JPanel botoesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        salvarButton = new JButton("Salvar Cadastro");
+        cancelarButton = new JButton("Cancelar"); // NOVO: Instanciando o botão
+        botoesPanel.add(salvarButton);
+        botoesPanel.add(cancelarButton);
+
         gbc.gridx = 0;
         gbc.gridy = 6;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
-        salvarButton = new JButton("Salvar Cadastro");
-        add(salvarButton, gbc);
+        add(botoesPanel, gbc); // NOVO: Adicionando o painel de botões à janela
 
-        // Ação do botão executa o Command
+        // --- Ações dos Botões ---
+
+        // Ação do botão SALVAR executa o Command
         salvarButton.addActionListener((ActionEvent e) -> {
             if (salvarCommand != null) {
                 salvarCommand.executar();
@@ -73,34 +82,13 @@ public class CadastroUsuarioView extends JFrame {
 
     // --- MÉTODOS PÚBLICOS PARA O PRESENTER ---
 
-    public String getNome() { return nomeField.getText(); }
-    public String getUsuario() { return usuarioField.getText(); }
-    public String getSenha() { return new String(senhaField.getPassword()); }
-    public String getContato() { return contatoField.getText(); }
-    public boolean isPerfilVendedorSelecionado() { return perfilVendedorCheck.isSelected(); }
-    public boolean isPerfilCompradorSelecionado() { return perfilCompradorCheck.isSelected(); }
-    public boolean isAdminSelecionado() { return isAdminCheck.isSelected(); }
-
-    public void setSalvarCommand(IProjetoCommand command) {
-        this.salvarCommand = command;
-    }
-    
-    public void setAdminCheckbox(boolean selecionado, boolean habilitado) {
-        this.isAdminCheck.setSelected(selecionado);
-        this.isAdminCheck.setEnabled(habilitado);
-    }
-    
-    public void limparCampos() {
-        nomeField.setText("");
-        usuarioField.setText("");
-        senhaField.setText("");
-        contatoField.setText("");
-        perfilVendedorCheck.setSelected(false);
-        perfilCompradorCheck.setSelected(false);
-        isAdminCheck.setSelected(false);
-    }
-
-    public void exibirMensagem(String mensagem) {
-        JOptionPane.showMessageDialog(this, mensagem);
-    }
+    public JTextField getNomeField() { return nomeField; }
+    public JTextField getUsuarioField() { return usuarioField; }
+    public JPasswordField getSenhaField() { return senhaField; }
+    public JTextField getContatoField() { return contatoField; }
+    public JCheckBox isPerfilVendedorSelecionado() { return perfilVendedorCheck; }
+    public JCheckBox isPerfilCompradorSelecionado() { return perfilCompradorCheck; }
+    public JCheckBox isAdminSelecionado() { return isAdminCheck; }
+    public JButton getSalvarButton() { return salvarButton; }
+    public JButton getCancelarButton() { return cancelarButton; }
 }
