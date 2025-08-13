@@ -4,6 +4,7 @@ import br.ufes.economiacircularmvp.repository.IUsuarioRepository;
 import br.ufes.economiacircularmvp.view.CadastroUsuarioView;
 import br.ufes.economiacircularmvp.command.IProjetoCommand;
 import br.ufes.economiacircularmvp.dto.UsuarioDTO;
+import com.pss.senha.validacao.ValidadorSenha;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -29,7 +30,7 @@ public final class CadastroUsuarioPresenter {
         //view.setSalvarCommand(comandoSalvar);
     }
 
-    public void configurar() throws SQLException {
+    private void configurar() throws SQLException {
         view.getSalvarButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -73,7 +74,7 @@ public final class CadastroUsuarioPresenter {
         view.setVisible(true);
     }
    
-    public void limparCampos() {
+    private void limparCampos() {
         view.getNomeField().setText("");
         view.getUsuarioField().setText("");
         view.getSenhaField().setText("");
@@ -102,7 +103,7 @@ public final class CadastroUsuarioPresenter {
         // ... buscar todos os outros campos
 
        // 2. O Presenter executa a lógica de negócio (validações)
-        if (nome.isBlank() || usuario.isBlank() || senha.isBlank()) {
+        if (nome.isBlank() || usuario.isBlank()) {
             exibirMensagem("Erro: Os campos Nome, Usuário (login) e Senha são obrigatórios.");
             return; // Interrompe a execução se a validação falhar
         }
@@ -112,25 +113,33 @@ public final class CadastroUsuarioPresenter {
             return;
         }
 
-        try {
-            // Validação extra: verifica se o login já existe
-            if (repository.buscarUsuarioPorLogin(usuario).isPresent()) {
-                exibirMensagem("Erro: O login '" + usuario + "' já está em uso. Por favor, escolha outro.");
-                return;
-            }
+        // 1. Chama o método de validação que agora retorna a lista de erros.
+        List<String> errosSenha = validarSenha(senha);
 
-            // 3. Monta o objeto de modelo (UsuarioDTO)
-            // Assumindo que seu UsuarioDTO tem um construtor que aceita esses parâmetros.
-            // Adapte se o construtor for diferente.
-            UsuarioDTO novoUsuario = new UsuarioDTO(nome, usuario, senha, contato, isAdmin);
+        // 2. Verifica se a lista de erros está vazia.
+        if (errosSenha.isEmpty()) {
+            // Se a lista está vazia, a senha é válida e o processo continua.
+            try {
+                // Validação extra: verifica se o login já existe
+                if (repository.buscarUsuarioPorLogin(usuario).isPresent()) {
+                    exibirMensagem("Erro: O login '" + usuario + "' já está em uso. Por favor, escolha outro.");
+                    return;
+                }
 
-            // ... e manda salvar no repositório.
-            repository.adicionarUsuario(novoUsuario);
+                // Monta o objeto de modelo (UsuarioDTO)
+                UsuarioDTO novoUsuario = new UsuarioDTO(nome, usuario, senha, contato, isAdmin);
 
-            // 4. Dá feedback ao usuário através da View
-            exibirMensagem("Usuário cadastrado com sucesso!");
-            limparCampos(); // Limpa os campos para um novo cadastro
-            view.dispose(); // Fecha a janela de cadastro após o sucesso
+                // ... e manda salvar no repositório.
+                repository.adicionarUsuario(novoUsuario);
+
+                // Dá feedback ao usuário através da View
+                exibirMensagem("Usuário cadastrado com sucesso!");
+                limparCampos(); // Limpa os campos para um novo cadastro
+                view.dispose(); // Fecha a janela de cadastro após o sucesso
+
+                // A linha abaixo estava fora do try-catch no seu código original.
+                // Movida para cá para garantir que só seja executada em caso de sucesso.
+                LoginPresenter loginPresenter = new LoginPresenter(repository);
 
             } catch (SQLException e) {
                 // Trata possíveis erros de banco de dados
@@ -139,13 +148,22 @@ public final class CadastroUsuarioPresenter {
                 // Trata outros erros inesperados
                 exibirMensagem("Ocorreu um erro inesperado: " + e.getMessage());
             }
-        // 4. Dá feedback ao usuário através da View
-        exibirMensagem("Usuário cadastrado com sucesso!");
-        view.dispose();
-        LoginPresenter loginPresenter = new LoginPresenter(repository);
+        } else {
+            // 3. Se a lista contém erros, constrói uma mensagem e a exibe.
+            StringBuilder mensagemDeErro = new StringBuilder("Sua senha não é válida. Por favor, corrija os seguintes pontos:\n\n");
+            for (String erro : errosSenha) {
+                mensagemDeErro.append("- ").append(erro).append("\n");
+            }
+            exibirMensagem(mensagemDeErro.toString());
+        }
+    }
+    
+    private List<String> validarSenha(String senha){
+        ValidadorSenha validador = new ValidadorSenha();
+        return validador.validar(senha);
     }
 
-    public void exibirMensagem(String mensagem) {
+    private void exibirMensagem(String mensagem) {
         JOptionPane.showMessageDialog(view, mensagem,"" ,JOptionPane.INFORMATION_MESSAGE);
     }
     
