@@ -18,6 +18,7 @@
             <url>https://jitpack.io</url>
         </repository>
     </repositories>
+    
     <dependencies>
         <dependency>
             <groupId>org.xerial</groupId>
@@ -42,5 +43,23 @@
 	    <artifactId>validadorsenha</artifactId>
 	    <version>-SNAPSHOT</version>
 	</dependency>
+        
+        <dependency>
+	    <groupId>com.github.ThiAmaral</groupId>
+	    <artifactId>SistemaDeLog</artifactId>
+	    <version>v1.0.4</version>
+	</dependency>
+        
+        <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>1.5.3</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.formdev</groupId>
+            <artifactId>flatlaf</artifactId>
+            <version>3.1</version>
+        </dependency>
     </dependencies>
 </project>

@@ -7,16 +7,21 @@ public class Usuario {
     private String nome;
     private String usuario;
     private String senha;
-    private String contato;
+    private String telefone;
+    private String email;
+    private String cpf;
     private PerfilVendedor perfilVendedor;
     private PerfilComprador perfilComprador;
     private boolean isAdmin;
     private boolean autenticado;
     
-    public Usuario(String nome, String usuario, String senha, String contato){
+    public Usuario(String nome, String usuario, String senha, String telefone, String email, String cpf){
         this.nome = nome;
+        this.usuario = usuario;
         this.senha = senha;
-        this.contato = contato;
+        this.telefone = telefone;
+        this.email = email;
+        this.cpf = cpf;
         this.isAdmin = false;
         this.perfilVendedor = new PerfilVendedor();
         this.perfilComprador = new PerfilComprador();
@@ -34,8 +39,24 @@ public class Usuario {
         return senha;
     }
 
-    public String getContato() {
-        return contato;
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getCpf() {
+        return cpf;
     }
     
     public PerfilVendedor getPerfilVendedor(){
@@ -62,8 +83,8 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public void setContato(String contato) {
-        this.contato = contato;
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     public void setPerfilVendedor(PerfilVendedor perfilVendedor) {

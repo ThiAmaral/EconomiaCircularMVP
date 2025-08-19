@@ -4,17 +4,18 @@ import br.ufes.economiacircularmvp.dao.IUsuarioDAO;
 import br.ufes.economiacircularmvp.strategy.IGerenciarConexaoStrategy;
 import br.ufes.economiacircularmvp.dto.UsuarioDTO;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp; // NOVO: Import para data e hora
+import java.time.LocalDateTime; // NOVO: Import para data e hora
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class UsuarioDAOSQLite implements IUsuarioDAO{
-    
+public class UsuarioDAOSQLite implements IUsuarioDAO {
+
     private IGerenciarConexaoStrategy gerenciarConexao;
 
     public UsuarioDAOSQLite(IGerenciarConexaoStrategy gerenciarConexao) {
@@ -23,14 +24,17 @@ public class UsuarioDAOSQLite implements IUsuarioDAO{
 
     @Override
     public void criarTabela() throws SQLException {
+        // ALTERADO: Adicionado email e data_criacao
         String sql = "CREATE TABLE IF NOT EXISTS USUARIOS (" +
-                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                     "nome TEXT NOT NULL," +
-                     "username TEXT UNIQUE NOT NULL," +
-                     "senha_hash TEXT NOT NULL," +
-                     "contato TEXT," +
-                     "is_admin INTEGER NOT NULL DEFAULT 0" + // 0 para false, 1 para true
-                     ");";
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "nome TEXT NOT NULL," +
+                "username TEXT UNIQUE NOT NULL," +
+                "email TEXT UNIQUE NOT NULL," + // NOVO
+                "senha_hash TEXT NOT NULL," +
+                "telefone TEXT," +
+                "is_admin INTEGER NOT NULL DEFAULT 0," +
+                "data_criacao DATETIME NOT NULL" + // NOVO
+                ");";
         try (Connection conn = gerenciarConexao.getConnection();
              Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
@@ -52,14 +56,18 @@ public class UsuarioDAOSQLite implements IUsuarioDAO{
 
     @Override
     public void inserir(UsuarioDTO usuario) throws SQLException {
-        String sql = "INSERT INTO USUARIOS (nome, username, senha_hash, contato, is_admin) VALUES (?, ?, ?, ?, ?);";
+        // ALTERADO: Adicionado email e data_criacao
+        String sql = "INSERT INTO USUARIOS (nome, username, senha_hash, telefone, is_admin, email, data_criacao) VALUES (?, ?, ?, ?, ?, ?, ?);";
         try (Connection conn = gerenciarConexao.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, usuario.getNome());
             pstmt.setString(2, usuario.getUsername());
             pstmt.setString(3, usuario.getSenhaHash());
-            pstmt.setString(4, usuario.getContato());
+            pstmt.setString(4, usuario.getTelefone());
             pstmt.setInt(5, usuario.isAdmin() ? 1 : 0);
+            pstmt.setString(6, usuario.getEmail()); // NOVO
+            pstmt.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now())); // NOVO: Define a data/hora atual
+
             int affectedRows = pstmt.executeUpdate();
 
             if (affectedRows > 0) {
@@ -83,18 +91,22 @@ public class UsuarioDAOSQLite implements IUsuarioDAO{
     @Override
     public List<UsuarioDTO> buscarTodos() throws SQLException {
         List<UsuarioDTO> usuarios = new ArrayList<>();
-        String sql = "SELECT id, nome, username, senha_hash, contato, is_admin FROM USUARIOS;";
+        // ALTERADO: Adicionado email e data_criacao na consulta
+        String sql = "SELECT id, nome, username, senha_hash, telefone, is_admin, email, data_criacao FROM USUARIOS;";
         try (Connection conn = gerenciarConexao.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
+                // ALTERADO: Atualizado construtor do DTO
                 usuarios.add(new UsuarioDTO(
-                    rs.getInt("id"),
-                    rs.getString("nome"),
-                    rs.getString("username"),
-                    rs.getString("senha_hash"),
-                    rs.getString("contato"),
-                    rs.getInt("is_admin") == 1
+                        rs.getInt("id"),
+                        rs.getString("nome"),
+                        rs.getString("username"),
+                        rs.getString("senha_hash"),
+                        rs.getString("telefone"),
+                        rs.getString("email"),
+                        rs.getInt("is_admin") == 1,
+                        rs.getTimestamp("data_criacao").toLocalDateTime()
                 ));
             }
         } catch (SQLException e) {
@@ -106,20 +118,23 @@ public class UsuarioDAOSQLite implements IUsuarioDAO{
 
     @Override
     public Optional<UsuarioDTO> buscarPorLogin(String username) throws SQLException {
-        // Assume que 'exemplo' é o username, que é único [Anteriormente discutido, e schema de BD]
-        String sql = "SELECT id, nome, username, senha_hash, contato, is_admin FROM USUARIOS WHERE username = ?;";
+        // ALTERADO: Adicionado email e data_criacao na consulta
+        String sql = "SELECT id, nome, username, senha_hash, telefone, is_admin, email, data_criacao FROM USUARIOS WHERE username = ?;";
         try (Connection conn = gerenciarConexao.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, username);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
+                    // ALTERADO: Atualizado construtor do DTO
                     return Optional.of(new UsuarioDTO(
-                        rs.getInt("id"),
-                        rs.getString("nome"),
-                        rs.getString("username"),
-                        rs.getString("senha_hash"),
-                        rs.getString("contato"),
-                        rs.getInt("is_admin") == 1
+                            rs.getInt("id"),
+                            rs.getString("nome"),
+                            rs.getString("username"),
+                            rs.getString("senha_hash"),
+                            rs.getString("telefone"),
+                            rs.getString("email"),
+                            rs.getInt("is_admin") == 1,
+                            rs.getTimestamp("data_criacao").toLocalDateTime()
                     ));
                 }
             }
@@ -131,27 +146,28 @@ public class UsuarioDAOSQLite implements IUsuarioDAO{
     }
 
     @Override
-    public void atualizar(UsuarioDTO exemploAntigo, UsuarioDTO exemploNovo) throws SQLException {
-        // Conforme a discussão, usamos o ID do exemploAntigo para identificar e o exemploNovo para os dados.
-        if (exemploAntigo.getId() == 0) {
+    public void atualizar(UsuarioDTO usuarioAntigo, UsuarioDTO usuarioNovo) throws SQLException {
+        if (usuarioAntigo.getId() == 0) {
             throw new IllegalArgumentException("ID do usuário antigo não pode ser zero para atualização.");
         }
-        String sql = "UPDATE USUARIOS SET nome = ?, username = ?, senha_hash = ?, contato = ?, is_admin = ? WHERE id = ?;";
+        // ALTERADO: Adicionado email ao UPDATE. A data de criação não deve ser alterada.
+        String sql = "UPDATE USUARIOS SET nome = ?, username = ?, senha_hash = ?, telefone = ?, is_admin = ?, email = ? WHERE id = ?;";
         try (Connection conn = gerenciarConexao.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, exemploNovo.getNome());
-            pstmt.setString(2, exemploNovo.getUsername());
-            pstmt.setString(3, exemploNovo.getSenhaHash());
-            pstmt.setString(4, exemploNovo.getContato());
-            pstmt.setInt(5, exemploNovo.isAdmin() ? 1 : 0);
-            pstmt.setInt(6, exemploAntigo.getId()); // Usar o ID do exemploAntigo para a cláusula WHERE
+            pstmt.setString(1, usuarioNovo.getNome());
+            pstmt.setString(2, usuarioNovo.getUsername());
+            pstmt.setString(3, usuarioNovo.getSenhaHash());
+            pstmt.setString(4, usuarioNovo.getTelefone());
+            pstmt.setInt(5, usuarioNovo.isAdmin() ? 1 : 0);
+            pstmt.setString(6, usuarioNovo.getEmail()); // NOVO
+            pstmt.setInt(7, usuarioAntigo.getId());
 
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
-                System.out.println("Nenhum usuário encontrado com ID " + exemploAntigo.getId() + " para atualização (SQLite).");
+                System.out.println("Nenhum usuário encontrado com ID " + usuarioAntigo.getId() + " para atualização (SQLite).");
                 // TODO: Implementar lógica de logging para falha [15]
             } else {
-                System.out.println("Usuário com ID " + exemploAntigo.getId() + " atualizado com sucesso (SQLite).");
+                System.out.println("Usuário com ID " + usuarioAntigo.getId() + " atualizado com sucesso (SQLite).");
                 // TODO: Implementar lógica de logging para alteração [14]
             }
         } catch (SQLException e) {

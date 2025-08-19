@@ -1,29 +1,36 @@
 package br.ufes.economiacircularmvp.dto;
 
+import java.time.LocalDateTime;
+
 public class UsuarioDTO {
     private int id; // ID gerado pelo banco de dados
     private String nome;
     private String username; // Usado para login, deve ser único
     private String senhaHash; // Senha já hasheada para segurança
-    private String contato;
+    private String telefone;
+    private String email;
+    private LocalDateTime dataCriacao;
     private boolean isAdmin; // Flag para administrador do sistema [3]
 
     // Construtor completo
-    public UsuarioDTO(int id, String nome, String username, String senhaHash, String contato, boolean isAdmin) {
+    public UsuarioDTO(int id, String nome, String username, String senhaHash, String telefone, String email, boolean isAdmin, LocalDateTime dataCriacao) {
         this.id = id;
         this.nome = nome;
         this.username = username;
         this.senhaHash = senhaHash;
-        this.contato = contato;
+        this.telefone = telefone;
+        this.email = email;
+        this.dataCriacao = dataCriacao;
         this.isAdmin = isAdmin;
     }
 
     // Construtor para inserção (ID será auto-gerado)
-    public UsuarioDTO(String nome, String username, String senhaHash, String contato, boolean isAdmin) {
+    public UsuarioDTO(String nome, String username, String senhaHash, String telefone, String email, boolean isAdmin) {
         this.nome = nome;
         this.username = username;
         this.senhaHash = senhaHash;
-        this.contato = contato;
+        this.telefone = telefone;
+        this.email = email;
         this.isAdmin = isAdmin;
     }
 
@@ -60,12 +67,24 @@ public class UsuarioDTO {
         this.senhaHash = senhaHash;
     }
 
-    public String getContato() {
-        return contato;
+    public String getTelefone() {
+        return telefone;
     }
 
-    public void setContato(String contato) {
-        this.contato = contato;
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+    
+    public LocalDateTime getDataCriacao() {
+        return dataCriacao;
     }
 
     public boolean isAdmin() {
@@ -82,7 +101,8 @@ public class UsuarioDTO {
                "id=" + id +
                ", nome='" + nome + '\'' +
                ", username='" + username + '\'' +
-               ", contato='" + contato + '\'' +
+               ", telefone='" + telefone + '\'' +
+               ", email='" + email + '\'' +
                ", isAdmin=" + isAdmin +
                '}';
     }

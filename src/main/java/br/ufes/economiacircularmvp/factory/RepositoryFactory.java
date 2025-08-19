@@ -1,11 +1,14 @@
 package br.ufes.economiacircularmvp.factory;
 
 import br.ufes.economiacircularmvp.adapter.ConfiguracaoAdapter;
+import br.ufes.economiacircularmvp.adapter.JsonLogAdapter;
+import br.ufes.economiacircularmvp.adapter.TxtLogAdapter;
 import br.ufes.economiacircularmvp.dao.IUsuarioDAO;
 import br.ufes.economiacircularmvp.repository.H2UsuarioRepository;
 import br.ufes.economiacircularmvp.repository.IUsuarioRepository;
 import br.ufes.economiacircularmvp.repository.SQLiteUsuarioRepository;
 import java.sql.SQLException;
+import br.ufes.economiacircularmvp.adapter.ILogAdapter;
 
 public class RepositoryFactory {
         
@@ -35,6 +38,19 @@ public class RepositoryFactory {
            return new H2UsuarioRepository(usuarioDAO);
        } else {
            throw new IllegalArgumentException("SGBD '" + sgbd + "' não suportado. Verifique o arquivo .env.");
+       }
+    }
+    
+    public static ILogAdapter getLog(IUsuarioRepository repository){
+        String log = ConfiguracaoAdapter.getValor("LOG");
+        if (log == null) {
+           throw new RuntimeException("A chave 'LOG' não foi encontrada no arquivo de configuração .env.");
+       } else if (log.equalsIgnoreCase("txt")) {
+           return new JsonLogAdapter(repository);
+       } else if (log.equalsIgnoreCase("json")) {
+           return new TxtLogAdapter(repository);
+       } else {
+           throw new IllegalArgumentException("LOG '" + log + "' não suportado. Verifique o arquivo .env.");
        }
     }
 }

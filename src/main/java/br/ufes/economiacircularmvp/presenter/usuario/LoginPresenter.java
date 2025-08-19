@@ -1,9 +1,13 @@
-package br.ufes.economiacircularmvp.presenter;
+package br.ufes.economiacircularmvp.presenter.usuario;
 
+import br.ufes.economiacircularmvp.adapter.ILogAdapter;
 import br.ufes.economiacircularmvp.model.Usuario;
+import br.ufes.economiacircularmvp.presenter.PrincipalPresenter;
 import br.ufes.economiacircularmvp.repository.IUsuarioRepository;
 import br.ufes.economiacircularmvp.service.AutenticacaoService;
+import br.ufes.economiacircularmvp.view.IPrincipalView;
 import br.ufes.economiacircularmvp.view.LoginView;
+import br.ufes.economiacircularmvp.view.PrincipalView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -15,16 +19,18 @@ public final class LoginPresenter {
     private AutenticacaoService autenticacaoService;
     private CadastroUsuarioPresenter cadastroUsuarioPresenter;
     private IUsuarioRepository repository;
+    private ILogAdapter log;
     
-    public LoginPresenter(IUsuarioRepository repository){
+    public LoginPresenter(IUsuarioRepository repository, ILogAdapter log){
         this.view = new LoginView();
         this.repository = repository;
         this.autenticacaoService = new AutenticacaoService(repository);
+        this.log = log;
         view.setVisible(false);
         configurar();
     }
     
-    public void configurar(){
+    private void configurar(){
         view.getLoginButton().addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -61,15 +67,15 @@ public final class LoginPresenter {
         view.setVisible(true);
     }
     
-    public void limparCampos() {
+    private void limparCampos() {
         view.getUsuarioField().setText("");
         view.getSenhaField().setText("");
     }
     
     private void autenticar() throws SQLException{
-        String nomeUsuario = view.getUsuarioField().toString();
-        String senha = view.getSenhaField().toString();
-        Usuario usuario = new Usuario("",nomeUsuario, senha,"");
+        String nomeUsuario = view.getUsuarioField().getText();
+        String senha = new String(view.getSenhaField().getPassword());
+        Usuario usuario = new Usuario("",nomeUsuario, senha,"","","");
 
         autenticacaoService.autenticar(usuario);
 
@@ -80,17 +86,27 @@ public final class LoginPresenter {
                 JOptionPane.showMessageDialog(view, "Usuário com e-mail "
                         + usuario.getUsuario()+ " autenticado\n Simulando a abertura da janela principal");
                 Thread.sleep(4);
+                log.logSucesso("Login bem-sucediso!", nomeUsuario);
                 view.dispose();
+                // 1. Cria a View principal
+                IPrincipalView principalView = new PrincipalView();
+
+                // 2. Cria o Presenter principal e injeta a View
+                PrincipalPresenter principalPresenter = new PrincipalPresenter(principalView);
+
+                // 3. Inicia a aplicação
+                principalPresenter.iniciar();
+                
             } catch (InterruptedException ex) {
+                log.logFalha("Login!", nomeUsuario,"Falha ao logar");
                 throw new RuntimeException(ex.getMessage());
             }
         }
-
     }
     
     private void cadastrar() throws SQLException{
         view.dispose();
-        this.cadastroUsuarioPresenter = new CadastroUsuarioPresenter(this.repository);
+        this.cadastroUsuarioPresenter = new CadastroUsuarioPresenter(this.repository, this.log);
         
     }
 

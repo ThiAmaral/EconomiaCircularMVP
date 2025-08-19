@@ -1,5 +1,6 @@
-package br.ufes.economiacircularmvp.presenter;
+package br.ufes.economiacircularmvp.presenter.usuario;
 
+import br.ufes.economiacircularmvp.adapter.ILogAdapter;
 import br.ufes.economiacircularmvp.repository.IUsuarioRepository;
 import br.ufes.economiacircularmvp.view.CadastroUsuarioView;
 import br.ufes.economiacircularmvp.command.IProjetoCommand;
@@ -16,11 +17,13 @@ public final class CadastroUsuarioPresenter {
     
     private final CadastroUsuarioView view;
     private final IUsuarioRepository repository; // Repositório que acessa o banco de dados
+    private final ILogAdapter log;
 
-    public CadastroUsuarioPresenter(IUsuarioRepository repository) throws SQLException{
+    public CadastroUsuarioPresenter(IUsuarioRepository repository, ILogAdapter log) throws SQLException{
         this.view = new CadastroUsuarioView();
         view.setVisible(false);
         this.repository = repository;
+        this.log = log;
         limparCampos();
         configurar();
         // Cria o comando que chama o método 'salvarUsuario' do próprio Presenter.
@@ -60,12 +63,20 @@ public final class CadastroUsuarioPresenter {
         if (naoExistelUsuarios) {
             // 3. O Presenter manda a View se ajustar:
             //    marca a caixa "isAdmin" e a desabilita para o usuário não poder mudar.
+            view.getPerfisLabel().setVisible(false);
+            view.isPerfilCompradorSelecionado().setVisible(false);
+            view.isPerfilVendedorSelecionado().setVisible(false);
+            view.isPerfilCompradorSelecionado().setSelected(false);
+            view.isPerfilVendedorSelecionado().setSelected(false);
+            view.isPerfilCompradorSelecionado().setEnabled(false);
+            view.isPerfilVendedorSelecionado().setEnabled(false);
             view.isAdminSelecionado().setVisible(true);
             view.isAdminSelecionado().setSelected(true);
             view.isAdminSelecionado().setEnabled(false);
             exibirMensagem("Info: O primeiro usuário cadastrado será um Administrador.");
         } else {
             // 4. Caso contrário, a caixa fica habilitada para escolha manual.
+            view.getAdminLabel().setVisible(false);
             view.isAdminSelecionado().setVisible(false);
             view.isAdminSelecionado().setSelected(false);
             view.isAdminSelecionado().setEnabled(false);
@@ -78,7 +89,8 @@ public final class CadastroUsuarioPresenter {
         view.getNomeField().setText("");
         view.getUsuarioField().setText("");
         view.getSenhaField().setText("");
-        view.getContatoField().setText("");
+        view.getTelefoneField().setText("");
+        view.getEmailField().setText("");
         view.isPerfilVendedorSelecionado().setSelected(false);
         view.isPerfilVendedorSelecionado().setSelected(false);
         view.isAdminSelecionado().setSelected(false);
@@ -89,7 +101,8 @@ public final class CadastroUsuarioPresenter {
         String nome = view.getNomeField().getText();
         String usuario = view.getUsuarioField().getText();
         String senha = new String(view.getSenhaField().getPassword());
-        String contato = view.getContatoField().getText();
+        String contato = view.getTelefoneField().getText();
+        String email = view.getEmailField().getText();
         boolean isAdmin = view.isAdminSelecionado().isSelected();
         
         List<String> perfis = new ArrayList<>();
@@ -108,7 +121,7 @@ public final class CadastroUsuarioPresenter {
             return; // Interrompe a execução se a validação falhar
         }
         
-        if (perfis.isEmpty()) {
+        if (!isAdmin && perfis.isEmpty()) {
             exibirMensagem("Erro: Selecione ao menos um perfil (Vendedor ou Comprador).");
             return;
         }
@@ -127,7 +140,7 @@ public final class CadastroUsuarioPresenter {
                 }
 
                 // Monta o objeto de modelo (UsuarioDTO)
-                UsuarioDTO novoUsuario = new UsuarioDTO(nome, usuario, senha, contato, isAdmin);
+                UsuarioDTO novoUsuario = new UsuarioDTO(nome, usuario, senha, contato, email, isAdmin);
 
                 // ... e manda salvar no repositório.
                 repository.adicionarUsuario(novoUsuario);
@@ -139,7 +152,7 @@ public final class CadastroUsuarioPresenter {
 
                 // A linha abaixo estava fora do try-catch no seu código original.
                 // Movida para cá para garantir que só seja executada em caso de sucesso.
-                LoginPresenter loginPresenter = new LoginPresenter(repository);
+                LoginPresenter loginPresenter = new LoginPresenter(repository, log);
 
             } catch (SQLException e) {
                 // Trata possíveis erros de banco de dados
@@ -169,5 +182,6 @@ public final class CadastroUsuarioPresenter {
     
     private void cancelar() {
         view.dispose();
+        LoginPresenter loginPresenter = new LoginPresenter(repository, log);
     }
 }

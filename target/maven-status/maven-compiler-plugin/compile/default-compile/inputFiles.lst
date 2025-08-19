@@ -1,6 +1,8 @@
 C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\adapter\ConfiguracaoAdapter.java
+C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\adapter\ILogAdapter.java
+C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\adapter\JsonLogAdapter.java
+C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\adapter\TxtLogAdapter.java
 C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\command\IProjetoCommand.java
-C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\command\usuario\SalvarUsuarioCommand.java
 C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\dao\h2\PerfilCompradorDAOH2.java
 C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\dao\h2\PerfilVendedorDAOH2.java
 C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\dao\h2\UsuarioDAOH2.java
@@ -24,8 +26,11 @@ C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\mai
 C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\perfil\IPerfil.java
 C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\perfil\PerfilComprador.java
 C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\perfil\PerfilVendedor.java
-C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\presenter\CadastroUsuarioPresenter.java
-C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\presenter\LoginPresenter.java
+C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\presenter\CadastroPerfilPresenter.java
+C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\presenter\PrincipalPresenter.java
+C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\presenter\usuario\CadastroUsuarioPresenter.java
+C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\presenter\usuario\command\SalvarUsuarioCommand.java
+C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\presenter\usuario\LoginPresenter.java
 C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\repository\H2UsuarioRepository.java
 C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\repository\IUsuarioRepository.java
 C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\repository\PerfilCompradorRepository.java
@@ -37,5 +42,9 @@ C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\mai
 C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\strategy\H2GerenciarConexaoStrategy.java
 C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\strategy\IGerenciarConexaoStrategy.java
 C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\strategy\SQLiteGerenciarConexaoStrategy.java
+C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\view\CadastroPerfilView.java
 C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\view\CadastroUsuarioView.java
+C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\view\ICadastroPerfilView.java
+C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\view\IPrincipalView.java
 C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\view\LoginView.java
+C:\Users\Thiago\OneDrive\Documentos\NetBeansProjects\EconomiaCircularMVP\src\main\java\br\ufes\economiacircularmvp\view\PrincipalView.java
