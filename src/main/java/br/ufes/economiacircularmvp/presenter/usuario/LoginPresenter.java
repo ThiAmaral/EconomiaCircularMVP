@@ -86,7 +86,7 @@ public final class LoginPresenter {
                 JOptionPane.showMessageDialog(view, "Usuário com e-mail "
                         + usuario.getUsuario()+ " autenticado\n Simulando a abertura da janela principal");
                 Thread.sleep(4);
-                log.logSucesso("Login bem-sucediso!", nomeUsuario);
+                log.logSucesso("Autenticar", nomeUsuario, "Login bem-sucedido!");
                 view.dispose();
                 // 1. Cria a View principal
                 IPrincipalView principalView = new PrincipalView();
@@ -98,9 +98,12 @@ public final class LoginPresenter {
                 principalPresenter.iniciar();
                 
             } catch (InterruptedException ex) {
-                log.logFalha("Login!", nomeUsuario,"Falha ao logar");
+                
                 throw new RuntimeException(ex.getMessage());
             }
+        } else {
+            JOptionPane.showMessageDialog(view, "Usuário ou Senha Inválidos","" ,JOptionPane.INFORMATION_MESSAGE);
+            log.logFalha("Autenticar", nomeUsuario, "Usuário ou Senha Inválidos");
         }
     }
     

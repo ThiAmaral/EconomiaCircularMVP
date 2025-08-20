@@ -21,7 +21,7 @@ public class JsonLogAdapter implements ILogAdapter{
     }
 
     @Override
-    public void logSucesso(String operacao, String usuario) throws SQLException {
+    public void logSucesso(String operacao, String usuario, String status) throws SQLException {
         // Busca o usuário diretamente pelo repositório
         Optional<UsuarioDTO> usuarioOptional = usuarioRepository.buscarUsuarioPorLogin(usuario);
         

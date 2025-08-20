@@ -20,7 +20,7 @@ public class AutenticacaoService {
             if (usuarioEncontrado.getSenhaHash().equalsIgnoreCase(usuario.getSenha())) {
                 usuario.setAutenticado(true);
             } else {
-                throw new RuntimeException("Usuário " + usuario.getNome()+ " não autenticado");
+                usuario.setAutenticado(false);
             }
         }
     }

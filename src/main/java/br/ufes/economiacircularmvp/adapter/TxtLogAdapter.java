@@ -21,17 +21,17 @@ public class TxtLogAdapter implements ILogAdapter{
     }
 
     @Override
-    public void logSucesso(String operacao, String usuario) throws SQLException {
+    public void logSucesso(String operacao, String usuario, String status) throws SQLException {
         // Busca o usuário diretamente pelo repositório
         Optional<UsuarioDTO> usuarioOptional = usuarioRepository.buscarUsuarioPorLogin(usuario);
         
         if (usuarioOptional.isPresent()) {
             UsuarioDTO usuarioEncontrado = usuarioOptional.get();
             // Chama o logger com o nome do usuário encontrado
-            logger.registrar(operacao, usuarioEncontrado.getNome()); 
+            logger.logSucesso("Teste" ,operacao, usuarioEncontrado.getUsername(), status); 
         } else {
             // Lida com o caso de usuário não encontrado
-            logger.registrarFalha(operacao, "Usuario: " + usuario, "Usuário não encontrado.");
+            logger.logFalha("Teste", operacao, "Teste", "Usuario: " + usuario, "Usuário não encontrado.");
         }
     }
 
@@ -39,9 +39,9 @@ public class TxtLogAdapter implements ILogAdapter{
     public void logFalha(String operacao, String usuario, String mensagemFalha) throws SQLException {
         Optional<UsuarioDTO> usuarioOptional = usuarioRepository.buscarUsuarioPorLogin(usuario);
         
-        String nomeUsuario = usuarioOptional.map(UsuarioDTO::getNome) // Forma elegante de pegar o nome se existir
-                                            .orElse("Usuario: " + usuario + " (não encontrado)");
+        String nomeUsuario = usuarioOptional.map(UsuarioDTO::getUsername) // Forma elegante de pegar o nome se existir
+                                            .orElse(usuario);
         
-        logger.registrarFalha(operacao, nomeUsuario, mensagemFalha);
+        logger.logFalha("", operacao, mensagemFalha, nomeUsuario, "Registro");
     }
 }

@@ -147,6 +147,7 @@ public final class CadastroUsuarioPresenter {
 
                 // Dá feedback ao usuário através da View
                 exibirMensagem("Usuário cadastrado com sucesso!");
+                log.logSucesso("Cadastrar", usuario, "Cadastro bem-sucedido!");
                 limparCampos(); // Limpa os campos para um novo cadastro
                 view.dispose(); // Fecha a janela de cadastro após o sucesso
 
@@ -162,12 +163,17 @@ public final class CadastroUsuarioPresenter {
                 exibirMensagem("Ocorreu um erro inesperado: " + e.getMessage());
             }
         } else {
-            // 3. Se a lista contém erros, constrói uma mensagem e a exibe.
-            StringBuilder mensagemDeErro = new StringBuilder("Sua senha não é válida. Por favor, corrija os seguintes pontos:\n\n");
-            for (String erro : errosSenha) {
-                mensagemDeErro.append("- ").append(erro).append("\n");
+            try {
+                // 3. Se a lista contém erros, constrói uma mensagem e a exibe.
+                StringBuilder mensagemDeErro = new StringBuilder("Sua senha não é válida. Por favor, corrija os seguintes pontos:\n\n");
+                for (String erro : errosSenha) {
+                    mensagemDeErro.append("- ").append(erro).append("\n");
+                }
+                log.logFalha("Cadastrar", usuario, "Campos inválidos");
+                exibirMensagem(mensagemDeErro.toString());
+            } catch (SQLException ex) {
+                System.getLogger(CadastroUsuarioPresenter.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             }
-            exibirMensagem(mensagemDeErro.toString());
         }
     }
     
