@@ -1,4 +1,4 @@
-package br.ufes.economiacircularmvp.presenter;
+package br.ufes.economiacircularmvp.presenter.geral;
 
 import br.ufes.economiacircularmvp.model.Usuario;
 import br.ufes.economiacircularmvp.view.ICadastroPerfilView;

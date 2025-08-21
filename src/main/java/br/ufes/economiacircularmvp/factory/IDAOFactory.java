@@ -1,5 +1,6 @@
 package br.ufes.economiacircularmvp.factory;
 
+import br.ufes.economiacircularmvp.dao.IItemDAO;
 import br.ufes.economiacircularmvp.strategy.IGerenciarConexaoStrategy;
 import br.ufes.economiacircularmvp.dao.IPerfilCompradorDAO;
 import br.ufes.economiacircularmvp.dao.IPerfilVendedorDAO;
@@ -14,5 +15,7 @@ public interface IDAOFactory{
     IPerfilCompradorDAO getPerfilCompradorDAO();
 
     IGerenciarConexaoStrategy getgerenciarConexao();
+    
+    IItemDAO getItemDAO();
 }
 

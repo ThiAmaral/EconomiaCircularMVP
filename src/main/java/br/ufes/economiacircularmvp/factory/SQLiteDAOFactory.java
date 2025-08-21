@@ -3,9 +3,11 @@ package br.ufes.economiacircularmvp.factory;
 import br.ufes.economiacircularmvp.strategy.IGerenciarConexaoStrategy;
 import br.ufes.economiacircularmvp.strategy.SQLiteGerenciarConexaoStrategy;
 import br.ufes.economiacircularmvp.adapter.ConfiguracaoAdapter;
+import br.ufes.economiacircularmvp.dao.IItemDAO;
 import br.ufes.economiacircularmvp.dao.IPerfilCompradorDAO;
 import br.ufes.economiacircularmvp.dao.IPerfilVendedorDAO;
 import br.ufes.economiacircularmvp.dao.IUsuarioDAO;
+import br.ufes.economiacircularmvp.dao.sqlite.ItemDAOSQLite;
 import br.ufes.economiacircularmvp.dao.sqlite.PerfilCompradorDAOSQLite;
 import br.ufes.economiacircularmvp.dao.sqlite.PerfilVendedorDAOSQLite;
 import br.ufes.economiacircularmvp.dao.sqlite.UsuarioDAOSQLite;
@@ -38,5 +40,10 @@ public class SQLiteDAOFactory implements IDAOFactory{
     @Override
     public IGerenciarConexaoStrategy getgerenciarConexao() {
         return gerenciarConexao;
+    }
+    
+    @Override
+    public IItemDAO getItemDAO() {
+        return new ItemDAOSQLite(gerenciarConexao);
     }
 }

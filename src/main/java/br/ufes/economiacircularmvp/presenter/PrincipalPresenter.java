@@ -1,29 +1,40 @@
 package br.ufes.economiacircularmvp.presenter;
 
-import br.ufes.economiacircularmvp.view.CadastroPerfilView;
-import br.ufes.economiacircularmvp.view.ICadastroPerfilView;
+import br.ufes.economiacircularmvp.dto.UsuarioDTO;
 import br.ufes.economiacircularmvp.view.IPrincipalView;
+import br.ufes.economiacircularmvp.view.ManterPerfilView;
+// Importe outras views e presenters necessários
+// import br.ufes.economiacircularmvp.view.ManterItemView;
+// import br.ufes.economiacircularmvp.view.CatalogoView;
+// import br.ufes.economiacircularmvp.view.ConfiguracoesView;
 
 public class PrincipalPresenter {
     private IPrincipalView mainView;
+    private UsuarioDTO usuarioLogado;
 
-    public PrincipalPresenter(IPrincipalView mainView) {
-        this.mainView = mainView;
-        this.mainView.adicionarAcaoMenuCadastro(e -> abrirTelaCadastroPerfil());
-    }
+    public PrincipalPresenter(UsuarioDTO usuarioLogado) {
+        this.mainView = new br.ufes.economiacircularmvp.view.PrincipalView();
+        this.usuarioLogado = usuarioLogado;
+        
+        mainView.getRodapeLabel().setText("Usuário: " + usuarioLogado.getNome());
 
-    private void abrirTelaCadastroPerfil() {
-        // Cria a View de cadastro
-        ICadastroPerfilView cadastroView = new CadastroPerfilView();
+        // Adiciona os listeners para os itens de menu
+        this.mainView.adicionarAcaoMenuCadastroPerfil(e -> abrirTelaManterPerfil());
+        // this.mainView.adicionarAcaoMenuNovoItem(e -> abrirTelaNovoItem());
+        // this.mainView.adicionarAcaoMenuCatalogo(e -> abrirTelaCatalogo());
+        // this.mainView.adicionarAcaoMenuConfiguracoes(e -> abrirTelaConfiguracoes());
         
-        // Cria o Presenter para essa View
-        new CadastroPerfilPresenter(cadastroView);
-        
-        // Adiciona a View (como JInternalFrame) à tela principal
-        mainView.adicionarJanelaInterna((javax.swing.JInternalFrame) cadastroView);
-    }
-    
-    public void iniciar() {
         mainView.exibir();
     }
+
+    private void abrirTelaManterPerfil() {
+        ManterPerfilView perfilView = new ManterPerfilView();
+        // new ManterPerfilPresenter(perfilView, usuarioLogado); // Futura implementação
+        mainView.adicionarJanelaInterna(perfilView);
+    }
+
+    // Implemente os métodos para abrir as outras telas
+    // private void abrirTelaNovoItem() { ... }
+    // private void abrirTelaCatalogo() { ... }
+    // private void abrirTelaConfiguracoes() { ... }
 }

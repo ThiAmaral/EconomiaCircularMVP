@@ -2,16 +2,16 @@ package br.ufes.economiacircularmvp.service;
 
 import br.ufes.economiacircularmvp.model.Usuario;
 import br.ufes.economiacircularmvp.perfil.PerfilVendedor;
-import br.ufes.economiacircularmvp.repository.PerfilVendedorRepository;
+import br.ufes.economiacircularmvp.repository.IPerfilVendedorRepository;
 
 public class ManterPerfilVendedorService {
 
     // Dependência do repositório para persistência de dados (RNF03 [81])
-    private PerfilVendedorRepository perfilVendedorRepository; // Exemplo de injeção de dependência
+    private IPerfilVendedorRepository perfilVendedorRepository; // Exemplo de injeção de dependência
 
     // Construtor, recebendo a dependência do repositório
     
-    public ManterPerfilVendedorService(PerfilVendedorRepository perfilVendedorRepository) {
+    public ManterPerfilVendedorService(IPerfilVendedorRepository perfilVendedorRepository) {
         this.perfilVendedorRepository = perfilVendedorRepository;
     }
     

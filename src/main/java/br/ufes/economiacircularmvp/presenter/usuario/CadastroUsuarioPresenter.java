@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 public final class CadastroUsuarioPresenter {
     
     private final CadastroUsuarioView view;
-    private final IUsuarioRepository repository; // Repositório que acessa o banco de dados
+    private final IUsuarioRepository repository;
     private final ILogAdapter log;
 
     public CadastroUsuarioPresenter(IUsuarioRepository repository, ILogAdapter log) throws SQLException{

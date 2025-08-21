@@ -1,5 +1,5 @@
 package br.ufes.economiacircularmvp.repository;
 
-public class PerfilCompradorRepository {
+public interface IPerfilCompradorRepository {
     
 }

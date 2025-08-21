@@ -1,23 +1,22 @@
 package br.ufes.economiacircularmvp.presenter.usuario;
 
 import br.ufes.economiacircularmvp.adapter.ILogAdapter;
+import br.ufes.economiacircularmvp.dto.UsuarioDTO;
 import br.ufes.economiacircularmvp.model.Usuario;
 import br.ufes.economiacircularmvp.presenter.PrincipalPresenter;
 import br.ufes.economiacircularmvp.repository.IUsuarioRepository;
 import br.ufes.economiacircularmvp.service.AutenticacaoService;
-import br.ufes.economiacircularmvp.view.IPrincipalView;
 import br.ufes.economiacircularmvp.view.LoginView;
-import br.ufes.economiacircularmvp.view.PrincipalView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.Optional;
 import javax.swing.JOptionPane;
 
 public final class LoginPresenter {
     
     private LoginView view;
     private AutenticacaoService autenticacaoService;
-    private CadastroUsuarioPresenter cadastroUsuarioPresenter;
     private IUsuarioRepository repository;
     private ILogAdapter log;
     
@@ -26,94 +25,69 @@ public final class LoginPresenter {
         this.repository = repository;
         this.autenticacaoService = new AutenticacaoService(repository);
         this.log = log;
-        view.setVisible(false);
         configurar();
-    }
-    
-    private void configurar(){
-        view.getLoginButton().addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    autenticar();
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(view, "Falha: " + ex.getMessage());
-                }
-
-            }
-        });
-        view.getCadastrarButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    cadastrar();
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(view, "Falha: " + ex.getMessage());
-                }
-
-            }
-        });
-        view.getCancelarButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    cancelar();
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(view, "Falha: " + ex.getMessage());
-                }
-
-            }
-        });
         view.setVisible(true);
     }
     
-    private void limparCampos() {
-        view.getUsuarioField().setText("");
-        view.getSenhaField().setText("");
+    private void configurar(){
+        view.getLoginButton().addActionListener(e -> {
+            try {
+                autenticar();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(view, "Falha no banco de dados: " + ex.getMessage());
+            }
+        });
+        view.getCadastrarButton().addActionListener(e -> {
+            try {
+                cadastrar();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(view, "Falha ao abrir cadastro: " + ex.getMessage());
+            }
+        });
+        view.getCancelarButton().addActionListener(e -> cancelar());
     }
     
-    private void autenticar() throws SQLException{
+    private void autenticar() throws SQLException {
         String nomeUsuario = view.getUsuarioField().getText();
         String senha = new String(view.getSenhaField().getPassword());
-        Usuario usuario = new Usuario("",nomeUsuario, senha,"","","");
+        
+        // Objeto temporário para o serviço de autenticação
+        Usuario usuarioParaAutenticar = new Usuario("", nomeUsuario, senha, "", "", "");
+        autenticacaoService.autenticar(usuarioParaAutenticar);
 
-        autenticacaoService.autenticar(usuario);
+        if (usuarioParaAutenticar.isAutenticado()) {
+            // Se autenticado, busca o DTO completo para passar para a próxima tela
+            Optional<UsuarioDTO> usuarioDTOOpt = repository.buscarUsuarioPorLogin(nomeUsuario);
 
-        if (usuario.isAutenticado()) {
-            try {
-                //Instanciaria a presenter da tela principal
-                // passando o usuario autenticado como parametro
-                JOptionPane.showMessageDialog(view, "Usuário com e-mail "
-                        + usuario.getUsuario()+ " autenticado\n Simulando a abertura da janela principal");
-                Thread.sleep(4);
+            if (usuarioDTOOpt.isPresent()) {
+                UsuarioDTO usuarioLogado = usuarioDTOOpt.get();
+                
+                JOptionPane.showMessageDialog(view, "Usuário " + usuarioLogado.getNome() + " autenticado com sucesso!");
                 log.logSucesso("Autenticar", nomeUsuario, "Login bem-sucedido!");
-                view.dispose();
-                // 1. Cria a View principal
-                IPrincipalView principalView = new PrincipalView();
-
-                // 2. Cria o Presenter principal e injeta a View
-                PrincipalPresenter principalPresenter = new PrincipalPresenter(principalView);
-
-                // 3. Inicia a aplicação
-                principalPresenter.iniciar();
                 
-            } catch (InterruptedException ex) {
+                view.dispose(); // Fecha a tela de login
                 
-                throw new RuntimeException(ex.getMessage());
+                // Instancia o Presenter Principal, passando o DTO do usuário logado
+                new PrincipalPresenter(usuarioLogado);
+                
+            } else {
+                // Caso raro: autenticado mas não encontrado no banco. Indica inconsistência.
+                JOptionPane.showMessageDialog(view, "Erro de inconsistência de dados do usuário.", "Erro Crítico", JOptionPane.ERROR_MESSAGE);
+                log.logFalha("Autenticar", nomeUsuario, "Inconsistência de dados: autenticado mas não encontrado.");
             }
         } else {
-            JOptionPane.showMessageDialog(view, "Usuário ou Senha Inválidos","" ,JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(view, "Usuário ou Senha Inválidos", "Falha na Autenticação", JOptionPane.ERROR_MESSAGE);
             log.logFalha("Autenticar", nomeUsuario, "Usuário ou Senha Inválidos");
         }
     }
     
-    private void cadastrar() throws SQLException{
+    private void cadastrar() throws SQLException {
         view.dispose();
-        this.cadastroUsuarioPresenter = new CadastroUsuarioPresenter(this.repository, this.log);
-        
+        new CadastroUsuarioPresenter(this.repository, this.log);
     }
 
     private void cancelar() {
         view.dispose();
+        // Opcional: System.exit(0); se o cancelar deve fechar a aplicação
     }
 }

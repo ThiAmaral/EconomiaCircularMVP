@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-public class PerfilVendedorRepository {
+public class IPerfilVendedorRepository {
     
     private IPerfilVendedorDAO dao;
 
@@ -15,7 +15,7 @@ public class PerfilVendedorRepository {
     // * @param dao A implementação do IPerfilVendedorDAO.
     // * @throws SQLException Se ocorrer um erro ao criar a tabela.
 
-    public PerfilVendedorRepository(IPerfilVendedorDAO dao) throws SQLException {
+    public IPerfilVendedorRepository(IPerfilVendedorDAO dao) throws SQLException {
         this.dao = dao;
         this.dao.criarTabela();
     }

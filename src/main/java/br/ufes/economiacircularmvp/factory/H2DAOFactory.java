@@ -3,9 +3,11 @@ package br.ufes.economiacircularmvp.factory;
 import br.ufes.economiacircularmvp.strategy.H2GerenciarConexaoStrategy;
 import br.ufes.economiacircularmvp.strategy.IGerenciarConexaoStrategy;
 import br.ufes.economiacircularmvp.adapter.ConfiguracaoAdapter;
+import br.ufes.economiacircularmvp.dao.IItemDAO;
 import br.ufes.economiacircularmvp.dao.IPerfilCompradorDAO;
 import br.ufes.economiacircularmvp.dao.IPerfilVendedorDAO;
 import br.ufes.economiacircularmvp.dao.IUsuarioDAO;
+import br.ufes.economiacircularmvp.dao.h2.ItemDAOH2;
 import br.ufes.economiacircularmvp.dao.h2.PerfilCompradorDAOH2;
 import br.ufes.economiacircularmvp.dao.h2.PerfilVendedorDAOH2;
 import br.ufes.economiacircularmvp.dao.h2.UsuarioDAOH2;
@@ -38,5 +40,10 @@ public class H2DAOFactory implements IDAOFactory{
     @Override
     public IGerenciarConexaoStrategy getgerenciarConexao() {
         return gerenciarConexao;
+    }
+    
+    @Override
+    public IItemDAO getItemDAO() {
+        return new ItemDAOH2(gerenciarConexao);
     }
 }
