@@ -2,12 +2,12 @@
 
 ## Grupo:
 
-### Paulo Rizzi
-### Thiago Machado
+#### Paulo Rizzi
+#### Thiago Machado
 
 
-#### Requisitos Funcionais (RF)
-###### Gerenciamento de Perfis e Usuários:
+### Requisitos Funcionais (RF)
+#### Gerenciamento de Perfis e Usuários:
 **RF01: O sistema deve permitir o cadastro de usuários com informações como nome completo ou razão social, e-mail, telefone (opcional), e credenciais de acesso-FEITO**
 **RF02: O primeiro usuário cadastrado no sistema deve ser automaticamente designado como administrador, com permissões para monitorar o ambiente. - FEITO**
 RF03: Contas de administrador não podem criar ou receber perfis comerciais (vendedor/comprador).
