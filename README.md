@@ -46,8 +46,7 @@ ________________________________________________________________________________
 
 <sup>RF16: O sistema deve calcular e exibir os indicadores ambientais Material Circularity Indicator (MCI) e Global Warming Potential (GWP_avoided) para cada item no catálogo.</sup>
 
-<sup>RF17: O sistema deve permitir ao vendedor editar as informações de um anúncio, recalculando automaticamente o preço final e o MCI_item caso os defeitos sejam alterados.</sup>
-Transações (Oferta e Venda):</sup>
+<sup>RF17: O sistema deve permitir ao vendedor editar as informações de um anúncio, recalculando automaticamente o preço final e o MCI_item caso os defeitos sejam alterados. Transações (Oferta e Venda):</sup>
 
 <sup>RF18: Compradores devem poder fazer ofertas com valor de 1% a 20% abaixo do preço final do item já com os descontos aplicados.</sup>
 
