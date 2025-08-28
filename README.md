@@ -14,25 +14,25 @@ ________________________________________________________________________________
 
 **RF02: O primeiro usuário cadastrado no sistema deve ser automaticamente designado como administrador, com permissões para monitorar o ambiente. - FEITO**
 
-<sup>RF03: Contas de administrador não podem criar ou receber perfis comerciais (vendedor/comprador).<\sup>
+<sup>RF03: Contas de administrador não podem criar ou receber perfis comerciais (vendedor/comprador).</sup>
 
 **RF04: Usuários regulares (não administradores) devem poder criar um perfil de vendedor, de comprador, ou ambos, após a autenticação.- FEITO**
 
-RF05: Quando um usuário possuir ambos os perfis (vendedor e comprador), o sistema deve solicitar a escolha de um contexto de uso (venda ou compra) após o login.
+<sup>RF05: Quando um usuário possuir ambos os perfis (vendedor e comprador), o sistema deve solicitar a escolha de um contexto de uso (venda ou compra) após o login.
 
 **RF06: O perfil de vendedor deve armazenar nível de reputação (Bronze, Prata, Ouro), total de estrelas, contagem de vendas, insígnias, selos de temporada, "Benefício climático contribuído" (em kg de CO2​e), número de denúncias recebidas e taxonomias de curadoria. - FEITO**
 
-RF07: O perfil de comprador deve armazenar nível e estrelas de reputação, contagem de compras, insígnias, selo "Verificador Confiável", total de CO2​e evitado, e estatísticas de denúncias procedentes.
+<sup>RF07: O perfil de comprador deve armazenar nível e estrelas de reputação, contagem de compras, insígnias, selo "Verificador Confiável", total de CO2​e evitado, e estatísticas de denúncias procedentes.
 
 RF08: O sistema deve permitir que o administrador gerencie uma tabela de defeitos e seus respectivos percentuais de abatimento de preço.
 
-RF09: O sistema deve permitir que o administrador gerencie uma tabela com os fatores de emissão de CO2​e por tipo de material.
+RF09: O sistema deve permitir que o administrador gerencie uma tabela com os fatores de emissão de CO2​e por tipo de material.</sup>
 
 ___________________________________________________________________________________________________________________________________________________________________________________________________________________
 
 #### Gerenciamento de Catálogo e Itens:
 
-RF10: Vendedores podem ter no máximo trinta anúncios ativos simultaneamente.
+<sup>RF10: Vendedores podem ter no máximo trinta anúncios ativos simultaneamente.
 
 RF11: O cadastro de um item deve conter os seguintes campos obrigatórios: ID-C, tipo de peça, subcategoria, tamanho, cor predominante, composição principal, massa estimada, estado de conservação, defeitos e preço-base.
 
@@ -82,12 +82,12 @@ RF30: O sistema deve bloquear novas publicações e ofertas de um usuário após
 
 RF31: Usuários com 80% ou mais de denúncias validadas devem receber o selo "Verificador Confiável" e um bônus mensal de +0,2 estrela.
 
-RF32: Vendedores no nível Ouro devem poder aplicar um selo "Peça Curada" em seus anúncios.
+RF32: Vendedores no nível Ouro devem poder aplicar um selo "Peça Curada" em seus anúncios.</sup>
 ___________________________________________________________________________________________________________________________________________________________________________________________________________________
 
 #### Rastreabilidade e Monitoramento:
 
-RF33: O sistema deve manter uma linha do tempo para cada item (via ID-C), registrando eventos como publicação, ofertas, aceite, avaliação, revenda, reparo ou reciclagem.
+<sup>RF33: O sistema deve manter uma linha do tempo para cada item (via ID-C), registrando eventos como publicação, ofertas, aceite, avaliação, revenda, reparo ou reciclagem.
 
 RF34: O sistema deve registrar o número do ciclo de vida de um item (ciclo_n), incrementando-o a cada revenda.
 
@@ -95,7 +95,7 @@ RF35: O sistema deve disponibilizar uma tela de "Dashboard" para consulta, com g
 
 RF36: O administrador deve poder exportar um arquivo CSV com os dados de itens vendidos, contendo ID-C, data da venda, massa, GWP_base, GWP_avoided e MCI_item.
 
-RF37: O sistema deve realizar uma auditoria semanal automática para consolidar métricas, verificar a integridade dos dados (como o intervalo do MCI_item) e aplicar bônus.
+RF37: O sistema deve realizar uma auditoria semanal automática para consolidar métricas, verificar a integridade dos dados (como o intervalo do MCI_item) e aplicar bônus.</sup>
 
 ___________________________________________________________________________________________________________________________________________________________________________________________________________________
 
