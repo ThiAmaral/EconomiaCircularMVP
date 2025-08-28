@@ -14,7 +14,7 @@ ________________________________________________________________________________
 
 **RF02: O primeiro usuário cadastrado no sistema deve ser automaticamente designado como administrador, com permissões para monitorar o ambiente. - FEITO**
 
-RF03: Contas de administrador não podem criar ou receber perfis comerciais (vendedor/comprador).
+<sup>RF03: Contas de administrador não podem criar ou receber perfis comerciais (vendedor/comprador).<\sup>
 
 **RF04: Usuários regulares (não administradores) devem poder criar um perfil de vendedor, de comprador, ou ambos, após a autenticação.- FEITO**
 
