@@ -24,9 +24,9 @@ ________________________________________________________________________________
 
 <sup>RF07: O perfil de comprador deve armazenar nível e estrelas de reputação, contagem de compras, insígnias, selo "Verificador Confiável", total de CO2​e evitado, e estatísticas de denúncias procedentes.</sup>
 
-RF08: O sistema deve permitir que o administrador gerencie uma tabela de defeitos e seus respectivos percentuais de abatimento de preço.</sup>
+<sup>RF08: O sistema deve permitir que o administrador gerencie uma tabela de defeitos e seus respectivos percentuais de abatimento de preço.</sup>
 
-RF09: O sistema deve permitir que o administrador gerencie uma tabela com os fatores de emissão de CO2​e por tipo de material.</sup>
+<sup>RF09: O sistema deve permitir que o administrador gerencie uma tabela com os fatores de emissão de CO2​e por tipo de material.</sup>
 
 ___________________________________________________________________________________________________________________________________________________________________________________________________________________
 
